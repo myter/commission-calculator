@@ -32,58 +32,62 @@ export function FeeSection({ fees, country, dispatch }: Props) {
       </div>
 
       {fees.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {fees.map(fee => (
-            <div key={fee.id} className="flex items-center gap-2">
-              <input
-                type="text"
-                value={fee.label}
-                onChange={e => dispatch({
-                  type: 'UPDATE_FEE',
-                  payload: { ...fee, label: e.target.value },
-                })}
-                placeholder="Fee name"
-                className="flex-1 px-2 py-1.5 border border-wv-border rounded-lg text-sm text-wv-text bg-wv-input-bg focus:outline-none focus:ring-2 focus:ring-wv-accent/40 transition-colors"
-              />
-              <select
-                value={fee.type}
-                onChange={e => dispatch({
-                  type: 'UPDATE_FEE',
-                  payload: { ...fee, type: e.target.value as 'flat' | 'percentage' },
-                })}
-                className="px-2 py-1.5 border border-wv-border rounded-lg text-sm text-wv-text bg-wv-input-bg focus:outline-none focus:ring-2 focus:ring-wv-accent/40 transition-colors"
-              >
-                <option value="flat">{symbol} Flat</option>
-                <option value="percentage">% of GCI</option>
-              </select>
-              <div className="relative w-24">
-                {fee.type === 'flat' && (
-                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-wv-muted text-xs">
-                    {symbol}
-                  </span>
-                )}
+            <div key={fee.id} className="rounded-lg border border-wv-border bg-wv-input-bg p-3 space-y-2">
+              <div className="flex items-center gap-2">
                 <input
-                  type="number"
-                  min="0"
-                  step={fee.type === 'flat' ? '1' : '0.1'}
-                  value={fee.value || ''}
+                  type="text"
+                  value={fee.label}
                   onChange={e => dispatch({
                     type: 'UPDATE_FEE',
-                    payload: { ...fee, value: parseFloat(e.target.value) || 0 },
+                    payload: { ...fee, label: e.target.value },
                   })}
-                  className={`w-full ${fee.type === 'flat' ? 'pl-7' : 'pl-2'} pr-6 py-1.5 border border-wv-border rounded-lg text-sm text-wv-text bg-wv-input-bg focus:outline-none focus:ring-2 focus:ring-wv-accent/40 transition-colors`}
+                  placeholder="Fee name"
+                  className="flex-1 px-2 py-1.5 border border-wv-border rounded-lg text-sm text-wv-text bg-white focus:outline-none focus:ring-2 focus:ring-wv-accent/40 transition-colors"
                 />
-                {fee.type === 'percentage' && (
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-wv-muted text-xs">%</span>
-                )}
+                <button
+                  onClick={() => dispatch({ type: 'REMOVE_FEE', payload: fee.id })}
+                  className="text-wv-muted hover:text-wv-red text-sm px-1 transition-colors"
+                  title="Remove fee"
+                >
+                  &times;
+                </button>
               </div>
-              <button
-                onClick={() => dispatch({ type: 'REMOVE_FEE', payload: fee.id })}
-                className="text-wv-muted hover:text-wv-red text-sm px-1 transition-colors"
-                title="Remove fee"
-              >
-                &times;
-              </button>
+              <div className="flex items-center gap-2">
+                <select
+                  value={fee.type}
+                  onChange={e => dispatch({
+                    type: 'UPDATE_FEE',
+                    payload: { ...fee, type: e.target.value as 'flat' | 'percentage' },
+                  })}
+                  className="px-2 py-1.5 border border-wv-border rounded-lg text-sm text-wv-text bg-white focus:outline-none focus:ring-2 focus:ring-wv-accent/40 transition-colors"
+                >
+                  <option value="flat">{symbol} Flat</option>
+                  <option value="percentage">% of GCI</option>
+                </select>
+                <div className="relative flex-1">
+                  {fee.type === 'flat' && (
+                    <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-wv-muted text-xs">
+                      {symbol}
+                    </span>
+                  )}
+                  <input
+                    type="number"
+                    min="0"
+                    step={fee.type === 'flat' ? '1' : '0.1'}
+                    value={fee.value || ''}
+                    onChange={e => dispatch({
+                      type: 'UPDATE_FEE',
+                      payload: { ...fee, value: parseFloat(e.target.value) || 0 },
+                    })}
+                    className={`w-full ${fee.type === 'flat' ? 'pl-7' : 'pl-3'} pr-8 py-1.5 border border-wv-border rounded-lg text-sm text-wv-text bg-white focus:outline-none focus:ring-2 focus:ring-wv-accent/40 transition-colors`}
+                  />
+                  {fee.type === 'percentage' && (
+                    <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-wv-muted text-xs">%</span>
+                  )}
+                </div>
+              </div>
             </div>
           ))}
         </div>
