@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap');
 
+/* Force Tailwind utilities to use !important to beat Webflow specificity */
+@layer utilities {
+  .text-white { color: #ffffff !important; }
+  .text-wv-text { color: #140033 !important; }
+  .text-wv-muted { color: rgba(20, 0, 51, 0.55) !important; }
+  .bg-wv-primary { background-color: #310080 !important; }
+}
+
 @theme {
   --font-satoshi: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
   --color-wv-bg: #f9f7fc;
@@ -16,6 +24,33 @@
   --color-wv-red: #dc2626;
   --color-wv-accent-light: rgba(98, 0, 255, 0.08);
   --color-wv-accent-mid: rgba(98, 0, 255, 0.15);
+}
+
+/* Scoped reset to prevent Webflow style leakage */
+#commission-calculator *,
+#commission-calculator *::before,
+#commission-calculator *::after {
+  box-sizing: border-box;
+}
+
+#commission-calculator button {
+  color: inherit;
+  font: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+#commission-calculator input,
+#commission-calculator select {
+  font: inherit;
+  color: inherit;
+}
+
+#commission-calculator a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* Custom range slider styling */
